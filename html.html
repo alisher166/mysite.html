@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Интернет-магазин товаров с отличным выбором и удобным интерфейсом.">
+    <meta property="og:title" content="Интернет-магазин">
+    <meta property="og:description" content="Купите лучшие товары по доступным ценам.">
+    <meta property="og:image" content="URL_картинки">
+    <meta property="og:url" content="URL_вашего_сайта">
+    <title>Интернет-магазин</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            color: #333;
+            padding-bottom: 150px;
+        }
+
+        header {
+            background-color: #333;
+            color: #f7f7f7;
+            padding: 1em 2em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        #auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        #auth-buttons button {
+            background-color: #f7f7f7;
+            border: none;
+            color: #333;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        #auth-buttons button:hover {
+            background-color: #333;
+            color: #f7f7f7;
+        }
+
+        #search-bar {
+            width: 60%;
+            padding: 12px;
+            font-size: 16px;
+            margin: 20px auto;
+            display: block;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #filter-container {
+            text-align: center;
+            margin: 20px;
+        }
+
+        #filter-container select {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #products-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px;
+        }
+
+        .product {
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 280px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .product img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .product h3 {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+
+        .product p {
+            margin: 5px 0;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .product button {
+            background-color: #333;
+            color: #f7f7f7;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .product button:hover {
+            background-color: #f7f7f7;
+            color: #333;
+        }
+
+        .cart {
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            max-width: 350px;
+            position: fixed;
+            right: 20px;
+            top: 80px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cart:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .cart h2 {
+            margin-top: 0;
+        }
+
+        #cart-items p {
+            margin: 0;
+        }
+
+        footer {
+            background-color: #333;
+            color: #f7f7f7;
+            padding: 1em 2em;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .promo-code {
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            max-width: 500px;
+            margin: 20px auto;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .promo-code input, .promo-code button, #checkout-btn {
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .promo-code input {
+            width: calc(100% - 130px);
+            margin-right: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .promo-code button, #checkout-btn {
+            background-color: #333;
+            color: #f7f7f7;
+            cursor: pointer;
+            border: none;
+        }
+
+        .promo-code button:hover, #checkout-btn:hover {
+            background-color: #f7f7f7;
+            color: #333;
+        }
+
+        #login-form, #register-form {
+            display: none;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group button {
+            background-color: #333;
+            color: #f7f7f7;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .form-group button:hover {
+            background-color: #f7f7f7;
+            color: #333;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            color: #333;
+        }
+
+        .close-btn:hover {
+            color: #ff0000;
+        }
+
+        .register-link {
+            font-size: 14px;
+            display: block;
+            margin-top: 10px;
+            text-align: center;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .register-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Интернет-магазин</h1>
+    <div id="auth-buttons">
+        <button onclick="showLogin()">Вход</button>
+        <button onclick="showRegister()">Регистрация</button>
+    </div>
+</header>
+
+<input type="text" id="search-bar" placeholder="Поиск товаров..." oninput="searchProducts()">
+
+<div id="filter-container">
+    <select id="category-filter" onchange="filterProducts()">
+        <option value="">Все категории</option>
+        <option value="clothing">Одежда</option>
+        <option value="home">Бытовые вещи</option>
+        <option value="electronics">Техника</option>
+        <option value="other">Разное</option>
+    </select>
+</div>
+
+<div id="products-container"></div>
+
+<div class="cart">
+    <h2>Корзина</h2>
+    <div id="cart-items"></div>
+    <p id="cart-total">Итоговая сумма: 0 ₽</p>
+    <button id="checkout-btn" onclick="checkout()">Оформить заказ</button>
+</div>
+
+<div class="promo-code">
+    <input type="text" id="promo-code" placeholder="Введите промокод">
+    <button onclick="applyPromoCode()">Применить</button>
+</div>
+
+<footer>
+    <p>&copy; 2024 Интернет-магазин. Все права защищены.</p>
+</footer>
+
+<!-- Всплывающие формы для авторизации и регистрации -->
+<div id="login-form">
+    <span class="close-btn" onclick="hideLogin()">×</span>
+    <div class="form-group">
+        <label for="login-email">Email:</label>
+        <input type="email" id="login-email">
+    </div>
+    <div class="form-group">
+        <label for="login-password">Пароль:</label>
+        <input type="password" id="login-password">
+    </div>
+    <div class="form-group">
+        <button onclick="login()">Войти</button>
+    </div>
+</div>
+
+<div id="register-form">
+    <span class="close-btn" onclick="hideRegister()">×</span>
+    <div class="form-group">
+        <label for="register-email">Email:</label>
+        <input type="email" id="register-email">
+    </div>
+    <div class="form-group">
+        <label for="register-password">Пароль:</label>
+        <input type="password" id="register-password">
+    </div>
+    <div class="form-group">
+        <button onclick="register()">Зарегистрироваться</button>
+    </div>
+    <a href="#" class="register-link" onclick="showLogin()">Уже зарегистрированы? Войти</a>
+</div>
+
+<script>
+    const users = {}; // Словарь для хранения пользователей (email: password)
+    let isLoggedIn = false;
+    let cartTotal = 0;
+    let discountApplied = false;
+
+    const products = [
+        { name: 'Футболка', price: 500, category: 'clothing', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR55P0bJ7UrZj1xkGYUuIuClF0QkpO-U_SaxQ&s' },
+        { name: 'Джинсы', price: 1200, category: 'clothing', image: 'https://assets.vogue.ru/photos/61114fade0eaef37dfaad89f/master/w_1600%2Cc_limit/%25D0%25B4%25D0%25B6%25D0%25B8%25D0%25BD%25D1%2581%25D1%258B1.png' },
+        { name: 'Куртка', price: 2000, category: 'clothing', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsNpej8Qbn2KZAqM1_-wzAkA5zoK9KUAad7Q&s' },
+        { name: 'Платье', price: 1500, category: 'clothing', image: 'https://static.alltime.ru/obj/article/image-blog/Platiye_midi/Platiye_midi_1.jpg' },
+        { name: 'Обувь', price: 1800, category: 'clothing', image: 'https://itaita.ru/upload/medialibrary/339/tj4cbgk51t22nf5cjqupc6ct26r2yk40.jpeg' },
+        { name: 'Стиральная машина', price: 25000, category: 'home', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7XFZPPxlUrdonqY_R3PQiZjewrjCwBTPQpQ&s' },
+        { name: 'Холодильник', price: 30000, category: 'home', image: 'https://cdn2.domotekhnika.ru/images/products/008/238/606/big/20102196_1.jpg' },
+        { name: 'Чайник', price: 1500, category: 'home', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTajCK_cps6yGrBDGVqgl77IqV6aCetRW94LA&s' },
+        { name: 'Утюг', price: 1200, category: 'home', image: 'https://static.insales-cdn.com/images/products/1/5575/664786375/utyug_himmel_ib2226_2200vt_siniy.jpg' },
+        { name: 'Пылесос', price: 2500, category: 'home', image: 'https://ir-3.ozone.ru/s3/multimedia-p/c1000/6722558125.jpg' },
+        { name: 'Ноутбук', price: 50000, category: 'electronics', image: 'https://object.pscloud.io/cms/cms/Photo/img_0_62_2594_1_1.jpg' },
+        { name: 'Смартфон', price: 30000, category: 'electronics', image: 'https://img.freepik.com/free-vector/realistic-front-view-smartphone-mockup-mobile-iphone-purple-frame-with-blank-white-display-vector_90220-959.jpg?size=338&ext=jpg&ga=GA1.1.2008272138.1725321600&semt=ais_hybrid' },
+        { name: 'Телевизор', price: 40000, category: 'electronics', image: 'https://object.pscloud.io/cms/cms/Photo/img_0_95_1948_1_1.jpg' },
+        { name: 'Наушники', price: 2500, category: 'electronics', image: 'https://cdn0.ipoint.kz/AfrOrF3gWeDA6VOlDG4TzxMv39O7MXnF4CXpKUwGqRM/resize:fill:540/bg:f6f6f6/q:100/plain/s3://catalog-products/201209061733817462/201209150027130397.png@webp' },
+        { name: 'Фотоаппарат', price: 35000, category: 'electronics', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdqwpBwjNMvkJjQGTk6BuzBKnZ_nLiKv2h_A&s' },
+        { name: 'Книга', price: 600, category: 'other', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUO9B0vWg50LX_GGJiZjleRlDanA7KhTFV3A&s' },
+        { name: 'Канцелярские принадлежности', price: 500, category: 'other', image: 'https://www.artplast.ru/upload/grain.tables/5da/6levwomwob7tywspgx85owb1um0ic2g0.jpg' },
+        { name: 'Часы', price: 3000, category: 'other', image: 'https://ir-3.ozone.ru/s3/multimedia-j/c1000/6095048119.jpg' },
+        { name: 'Игрушка', price: 800, category: 'other', image: 'https://catalog.detmir.st/media/bB-Npdg9rPzdPxt-yJioJvI3AOSbi0bEbTlxyh7fwPM=?preset=site_product_gallery_r1500' },
+        { name: 'Открытка', price: 200, category: 'other', image: 'https://shop-cdn1-2.vigbo.tech/shops/108425/products/18589061/images/2-5d64f9892d3911e8975d453c92b08819.jpg' },
+        { name: 'Сумка', price: 1500, category: 'clothing', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOrcFKJuYKWARS1UAy2AswiBHGcSkCNd7Plw&s' },
+        { name: 'Шапка', price: 500, category: 'clothing', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReJWP62SRv6zhmsIL9zTuel4dmqwLBW6GKeA&s' },
+        { name: 'Шарф', price: 600, category: 'clothing', image: 'https://friendfunction.ru/upload/ff_content/blog/how-wearing-scarf-2.jpg' },
+        { name: 'Перчатки', price: 400, category: 'clothing', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBSgpot08sj_MmXqVG98h4mZSy-Jq4WMsTdQ&s' },
+        { name: 'Рюкзак', price: 1200, category: 'clothing', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkLxOu7BwzWCHYXfziQo75zKiQRHIEGlP80w&s' },
+        { name: 'Блендер', price: 2000, category: 'home', image: 'https://tgrad.kz/upload/resize_cache/iblock/3bf/1000_1000_1/pkpc0m3miuoaye6mrotcowcz7k0fef60.png' },
+        { name: 'Микроволновка', price: 18000, category: 'home', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQuTuRt6G5mUByBHWUVxzE0TJ-wnTp5XLWpIg&s' },
+        { name: 'Соковыжималка', price: 1700, category: 'home', image: 'https://object.pscloud.io/cms/cms/Photo/img_0_37_166_6_1.jpg' },
+        { name: 'Мультиварка', price: 3000, category: 'home', image: 'https://kz.multivarka.pro/upload/resize_cache/iblock/8ea/750_750_1/RMC-PM380_01.jpg' },
+        { name: 'Электрочайник', price: 1200, category: 'home', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVcbFs_bWPJybB0TYdngSDXfDV7las1BJgwg&s' },
+        { name: 'Планшет', price: 20000, category: 'electronics', image: 'https://object.pscloud.io/cms/cms/Photo/img_0_64_894_1_6.png' },
+        { name: 'Камера видеонаблюдения', price: 3500, category: 'electronics', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDTpZTKRiQq6ktLZE0C10Rx8IoE83hpLawSQ&s' },
+        { name: 'Кулеры для воды', price: 10000, category: 'home', image: 'https://images.satu.kz/96831215_w300_h300_kuler-dlya-vody.jpg' },
+        { name: 'Портативная колонка', price: 2500, category: 'electronics', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZtHIEr3JHNjfNRR8l0ca_7gG0UWMelE4jDw&s' },
+        { name: 'Проводной пылесос', price: 1500, category: 'home', image: 'https://avatars.mds.yandex.net/get-mpic/11910286/2a0000018d5475d15b2da5ccc0d961de82da/orig' }
+    ];
+
+    function showLogin() {
+        hideRegister();
+        document.getElementById('login-form').style.display = 'block';
+    }
+
+    function hideLogin() {
+        document.getElementById('login-form').style.display = 'none';
+    }
+
+    function showRegister() {
+        hideLogin();
+        document.getElementById('register-form').style.display = 'block';
+    }
+
+    function hideRegister() {
+        document.getElementById('register-form').style.display = 'none';
+    }
+
+    function login() {
+        const email = document.getElementById('login-email').value;
+        const password = document.getElementById('login-password').value;
+
+        if (users[email] && users[email] === password) {
+            isLoggedIn = true;
+            alert('Вы успешно вошли в систему!');
+            hideLogin();
+        } else {
+            alert('Неверный email или пароль.');
+        }
+    }
+
+    function register() {
+        const email = document.getElementById('register-email').value;
+        const password = document.getElementById('register-password').value;
+
+        if (email && password) {
+            if (users[email]) {
+                alert('Пользователь с таким email уже существует.');
+            } else {
+                users[email] = password;
+                alert('Регистрация успешна!');
+                hideRegister();
+            }
+        } else {
+            alert('Пожалуйста, заполните все поля.');
+        }
+    }
+
+    function addToCart(productName, productPrice) {
+        if (!isLoggedIn) {
+            alert('Пожалуйста, войдите в систему.');
+            return;
+        }
+
+        const cartItems = document.getElementById('cart-items');
+        const item = document.createElement('p');
+        item.textContent = `${productName} - ${productPrice} ₽`;
+        cartItems.appendChild(item);
+
+        cartTotal += productPrice;
+        updateCartTotal();
+    }
+
+    function updateCartTotal() {
+        let total = cartTotal;
+        if (discountApplied) {
+            total *= 0.9; // 10% скидка
+        }
+        document.getElementById('cart-total').textContent = `Итоговая сумма: ${total.toFixed(2)} ₽`;
+    }
+
+    function checkout() {
+        if (!isLoggedIn) {
+            alert('Пожалуйста, войдите в систему.');
+            return;
+        }
+
+        alert('Заказ оформлен! Спасибо за покупку.');
+        cartTotal = 0;
+        discountApplied = false;
+        document.getElementById('cart-items').innerHTML = '';
+        updateCartTotal();
+    }
+
+    function applyPromoCode() {
+        const promoCode = document.getElementById('promo-code').value;
+
+        if (promoCode === 'DISCOUNT10') {
+            discountApplied = true;
+            alert('Промокод применен! Скидка 10%.');
+        } else {
+            alert('Неверный промокод.');
+        }
+
+        updateCartTotal();
+    }
+
+    function searchProducts() {
+        const query = document.getElementById('search-bar').value.toLowerCase();
+        const filteredProducts = products.filter(product => product.name.toLowerCase().includes(query));
+        displayProducts(filteredProducts);
+    }
+
+    function filterProducts() {
+        const category = document.getElementById('category-filter').value;
+        const filteredProducts = category ? products.filter(product => product.category === category) : products;
+        displayProducts(filteredProducts);
+    }
+
+    function displayProducts(productsToDisplay) {
+        const container = document.getElementById('products-container');
+        container.innerHTML = '';
+
+        productsToDisplay.forEach(product => {
+            const div = document.createElement('div');
+            div.classList.add('product');
+            div.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>${product.price} ₽</p>
+                    <button onclick="addToCart('${product.name}', ${product.price})">Добавить в корзину</button>
+                `;
+            container.appendChild(div);
+        });
+    }
+
+    // Инициализация страницы с отображением всех продуктов
+    displayProducts(products);
+</script>
+</body>
+</html>
